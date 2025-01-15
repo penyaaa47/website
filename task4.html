@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задание 4</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Класс для чётных фраз с голубым фоном */
+        .class1 {
+            background-color: lightblue;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        /* Класс для нечётных фраз с зелёным фоном */
+        .class2 {
+            background-color: lightgreen;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        /* Класс для выделения текста жирным */
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-computer">
+            <div class="screen"></div>
+            <div class="base"></div>
+        </div>
+        <nav class="menu">
+            <a href="index.html">Главная</a>
+            <a href="#">Задания</a>
+        </nav>
+    </header>
+    <aside>
+        <h2>Список фраз</h2>
+        <!-- Список, в который добавляются многоуровневые элементы -->
+        <ol id="phrase-list"></ol>
+        <button id="create-list-item">Создать</button>
+    </aside>
+    <main class="main-content">
+        <h1>Вариант 3</h1>
+        <section>
+            <h2>Фразы</h2>
+            <!-- Кнопка для добавления новых фраз -->
+            <button id="toggle-phrase">Показать фразу</button>
+            <!-- Кнопка для изменения стиля чётных строк -->
+            <button id="repaint">Перекрасить</button>
+            <div id="phrase-container"></div>
+        </section>
+    </main>
+    <script>
+        // Массив латинских фраз
+        const latinPhrases = [
+            "Consuetudo est altera natura",
+            "Nota bene",
+            "Nulla calamitas sola",
+            "Per aspera ad astra"
+        ];
+
+        // Массив переводов фраз на русский язык
+        const russianPhrases = [
+            "Привычка - вторая натура",
+            "Заметьте хорошо!",
+            "Беда не приходит одна",
+            "Через тернии к звёздам"
+        ];
+
+        // Переменные для отслеживания состояния
+        let usedIndices = new Set(); // Набор использованных индексов
+        let toggleState = false; // Для чередования классов class1 и class2
+        let boldState = false; // Для отслеживания жирности текста
+
+        // Обработчик для кнопки "Показать фразу"
+        document.getElementById('toggle-phrase').addEventListener('click', () => {
+            // Контейнер, в который добавляются фразы
+            const container = document.getElementById('phrase-container');
+
+            // Проверка, если все фразы уже были использованы
+            if (usedIndices.size === latinPhrases.length) {
+                alert('Фразы закончились');
+                return;
+            }
+
+            // Выбор случайного индекса, который ещё не использовался
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * latinPhrases.length);
+            } while (usedIndices.has(randomIndex));
+
+            usedIndices.add(randomIndex);
+
+            // Создание элемента для фразы
+            const phrase = document.createElement('p');
+            phrase.textContent = `${latinPhrases[randomIndex]} - ${russianPhrases[randomIndex]}`;
+            phrase.className = toggleState ? 'class1' : 'class2'; // Применение класса для фона
+            toggleState = !toggleState; // Переключение класса для следующей фразы
+
+            container.appendChild(phrase); // Добавление фразы в контейнер
+        });
+
+        // Обработчик для кнопки "Перекрасить"
+        document.getElementById('repaint').addEventListener('click', () => {
+            // Выбор чётных строк в контейнере
+            const phrases = document.querySelectorAll('#phrase-container p:nth-child(even)');
+            phrases.forEach(phrase => {
+                if (boldState) {
+                    phrase.classList.remove('bold'); // Удаление жирности текста
+                } else {
+                    phrase.classList.add('bold'); // Добавление жирности текста
+                }
+            });
+            boldState = !boldState; // Переключение состояния жирности текста
+        });
+
+        // Обработчик для кнопки "Создать"
+        document.getElementById('create-list-item').addEventListener('click', () => {
+            // Контейнер списка фраз
+            const list = document.getElementById('phrase-list');
+            const randomIndex = Math.floor(Math.random() * latinPhrases.length);
+
+            // Создание нового элемента списка
+            const listItem = document.createElement('li');
+
+            // Латинская фраза (основной элемент)
+            const latinItem = document.createElement('span');
+            latinItem.textContent = latinPhrases[randomIndex];
+            latinItem.style.fontWeight = 'bold';
+
+            // Вложенный список с переводом
+            const subList = document.createElement('ul');
+            const subItem = document.createElement('li');
+            subItem.textContent = russianPhrases[randomIndex];
+
+            subList.appendChild(subItem);
+            listItem.appendChild(latinItem);
+            listItem.appendChild(subList);
+            list.appendChild(listItem); // Добавление элемента в список
+        });
+    </script>
+    <footer class="footer">
+        <p>© 2024 АСУ на производстве. Все права защищены.</p>
+    </footer>
+</body>
+</html>

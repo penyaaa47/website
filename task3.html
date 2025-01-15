@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задание 3: Flexbox-реклама</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="logo-computer">
+            <div class="screen"></div>
+            <div class="base"></div>
+        </div>
+
+        <nav class="menu">
+            <a href="index.html">Главная</a>
+            <div class="tasks-menu">
+                <a>Задания</a>
+                <div class="dropdown">
+                    <a href="task2.html">Задание 2</a>
+                    <a href="task3.html">Задание 3</a>
+                    <a href="task4.html">Задание 4</a>
+                    <a href="task5.html">Задание 5</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Контент -->
+    <main class="content">
+        <h1>Задание 3: Flexbox-реклама</h1>
+        <div class="flex-container">
+            <div class="flex-item" id="pot">
+                <!-- Статичное изображение -->
+                <img src="images/ware2.jpg" alt="Кастрюля" class="pot-static">
+                <!-- При наведении -->
+                <img src="images/ware3.png" alt="Кастрюля при наведении" class="pot-hover">
+                <!-- При нажатии -->
+                <img src="images/ware4.png" alt="Крышка хлопает" class="pot-click">
+                <!-- Надпись -->
+                <span class="pot-text">Жаровочная посуда</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <p>&copy; 2024 АСУ на производстве. Все права защищены.</p>
+    </footer>
+</body>
+</html>

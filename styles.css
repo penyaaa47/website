@@ -1,0 +1,66 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Шапка */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to right, #4CAF50, #00BCD4);
+    border-radius: 50%;
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+    .menu a:hover {
+        text-decoration: underline;
+    }
+
+/* Контент */
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
+    .content img {
+        max-width: 100%;
+        height: auto;
+        margin-top: 20px;
+    }
+
+/* Подвал */
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .menu a {
+            margin: 5px 0;
+        }
+}
