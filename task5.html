@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задания</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .puzzle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .source, .target {
+            width: 500px;
+            height: 500px;
+            border: 2px dashed #333;
+            position: relative;
+            background-color: #fff;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .source {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .piece {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            transform: rotate(0deg);
+            transition: transform 0.2s, box-shadow 0.3s;
+            position: absolute;
+        }
+
+        .success {
+            animation: successAnimation 1s ease-in-out;
+        }
+
+        @keyframes successAnimation {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .target.success {
+            transform: scale(1.1);
+        }
+
+            .target.success:hover {
+                transform: scale(1.05);
+            }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-computer">
+            <div class="screen"></div>
+            <div class="base"></div>
+        </div>
+
+        <nav class="menu">
+            <a href="index.html">Главная</a>
+            <div class="tasks-menu">
+                <a>Задания</a>
+                <div class="dropdown">
+                    <a href="task2.html">Задание 2</a>
+                    <a href="task3.html">Задание 3</a>
+                    <a href="task4.html">Задание 4</a>
+                    <a href="task5.html">Задание 5</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="content">
+        <section class="task">
+            <h2>Задание 5. Собрать животное</h2>
+            <div class="puzzle-container">
+                <div class="source" id="source">
+                    <div class="piece" id="piece1" style="background-image: url('images/1.jpg'); top: 0; left: 0; transform: rotate(90deg);" draggable="true"></div>
+                    <div class="piece" id="piece2" style="background-image: url('images/2.jpg'); top: 0; left: 110px; transform: rotate(180deg);" draggable="true"></div>
+                    <div class="piece" id="piece3" style="background-image: url('images/3.jpg'); top: 0; left: 220px; transform: rotate(270deg);" draggable="true"></div>
+                    <div class="piece" id="piece4" style="background-image: url('images/4.jpg'); top: 0; left: 330px; transform: rotate(0deg);" draggable="true"></div>
+                </div>
+                <div class="target" id="target"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 АСУ на производстве. Все права защищены.</p>
+    </footer>
+
+    <script>
+        const source = document.getElementById('source');
+        const target = document.getElementById('target');
+
+        let draggedPiece = null;
+
+        document.querySelectorAll('.piece').forEach(piece => {
+            piece.addEventListener('dragstart', (e) => {
+                draggedPiece = e.target;
+            });
+
+            piece.addEventListener('dragend', (e) => {
+                draggedPiece = null;
+            });
+
+            piece.addEventListener('click', () => {
+                const currentRotation = parseInt(piece.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+                piece.style.transform = `rotate(${(currentRotation + 90) % 360}deg)`;
+                setTimeout(checkPuzzle, 100);
+            });
+        });
+
+        target.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        target.addEventListener('drop', (e) => {
+            e.preventDefault();
+            if (draggedPiece) {
+                const rect = target.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const snapX = Math.round(x / 100) * 100;
+                const snapY = Math.round(y / 100) * 100;
+
+                draggedPiece.style.left = `${snapX}px`;
+                draggedPiece.style.top = `${snapY}px`;
+                target.appendChild(draggedPiece);
+
+                setTimeout(checkPuzzle, 100);
+            }
+        });
+
+        function checkPuzzle() {
+            const pieces = Array.from(target.querySelectorAll('.piece'));
+            const positions = pieces.map(piece => {
+                const left = parseInt(piece.style.left);
+                const top = parseInt(piece.style.top);
+                const rotation = parseInt(piece.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+                return { id: piece.id, left, top, rotation };
+            });
+
+            const isCorrect = positions.every(pos => {
+                if (pos.id === 'piece1') {
+                    return positions.some(p => p.id === 'piece2' && p.left === pos.left + 100 && p.top === pos.top) &&
+                        positions.some(p => p.id === 'piece3' && p.left === pos.left && p.top === pos.top + 100) &&
+                        pos.rotation === 0;
+                } else if (pos.id === 'piece2') {
+                    return positions.some(p => p.id === 'piece1' && p.left === pos.left - 100 && p.top === pos.top) &&
+                        positions.some(p => p.id === 'piece4' && p.left === pos.left && p.top === pos.top + 100) &&
+                        pos.rotation === 0;
+                } else if (pos.id === 'piece3') {
+                    return positions.some(p => p.id === 'piece1' && p.left === pos.left && p.top === pos.top - 100) &&
+                        positions.some(p => p.id === 'piece4' && p.left === pos.left + 100 && p.top === pos.top) &&
+                        pos.rotation === 0;
+                } else if (pos.id === 'piece4') {
+                    return positions.some(p => p.id === 'piece2' && p.left === pos.left && p.top === pos.top - 100) &&
+                        positions.some(p => p.id === 'piece3' && p.left === pos.left - 100 && p.top === pos.top) &&
+                        pos.rotation === 0;
+                }
+                return false;
+            });
+
+            if (isCorrect) {
+                target.classList.add('success');
+                setTimeout(() => {
+                    target.classList.remove('success');
+                    alert('Поздравляем, пазл собран правильно!');
+                }, 300);
+            }
+        }
+    </script>
+</body>
+</html>
