@@ -1,74 +1,79 @@
 ﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Задание 4</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8"> <!-- Устанавливаем кодировку страницы для корректного отображения кириллицы -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Для адаптации страницы на мобильных устройствах -->
+    <title>Задание 4</title> <!-- Заголовок страницы -->
+    <link rel="stylesheet" href="style.css"> <!-- Подключение внешнего файла стилей -->
     <style>
         /* Класс для чётных фраз с голубым фоном */
         .class1 {
-            background-color: lightblue;
-            padding: 10px;
-            margin: 5px 0;
+            background-color: lightblue; /* Задаём голубой фон */
+            padding: 10px; /* Внутренние отступы */
+            margin: 5px 0; /* Отступ между строками */
         }
 
         /* Класс для нечётных фраз с зелёным фоном */
         .class2 {
-            background-color: lightgreen;
-            padding: 10px;
-            margin: 5px 0;
+            background-color: lightgreen; /* Задаём зелёный фон */
+            padding: 10px; /* Внутренние отступы */
+            margin: 5px 0; /* Отступ между строками */
         }
 
         /* Класс для выделения текста жирным */
         .bold {
-            font-weight: bold;
+            font-weight: bold; /* Полужирное начертание текста */
         }
     </style>
 </head>
 <body>
+    <!-- Шапка сайта -->
     <header class="header">
         <div class="logo-computer">
-            <div class="screen"></div>
-            <div class="base"></div>
+            <div class="screen"></div> <!-- Экран логотипа -->
+            <div class="base"></div> <!-- Основание логотипа -->
         </div>
         <nav class="menu">
-            <a href="index.html">Главная</a>
+            <a href="index.html">Главная</a> <!-- Ссылка на главную страницу -->
             <div class="tasks-menu">
-                <a>Задания</a>
+                <a>Задания</a> <!-- Родительский элемент для подменю -->
                 <div class="dropdown">
-                    <a href="task2.html">Задание 2</a>
-                    <a href="task3.html">Задание 3</a>
-                    <a href="task4.html">Задание 4</a>
-                    <a href="task5.html">Задание 5</a>
+                    <!-- Подменю с заданиями -->
+                    <a href="task2.html">Задание 2</a> <!-- Ссылка на задание 2 -->
+                    <a href="task3.html">Задание 3</a> <!-- Ссылка на задание 3 -->
+                    <a href="task4.html">Задание 4</a> <!-- Ссылка на задание 4 -->
+                    <a href="task5.html">Задание 5</a> <!-- Ссылка на задание 5 -->
                 </div>
             </div>
         </nav>
     </header>
+
+    <!-- Боковая панель -->
     <aside>
-        <h2>Список фраз</h2>
-        <!-- Список, в который добавляются многоуровневые элементы -->
-        <ol id="phrase-list"></ol>
-        <button id="create-list-item">Создать</button>
+        <h2>Список фраз</h2> <!-- Заголовок боковой панели -->
+        <ol id="phrase-list"></ol> <!-- Нумерованный список для многоуровневых элементов -->
+        <button id="create-list-item">Создать</button> <!-- Кнопка для добавления фраз в список -->
     </aside>
+
+    <!-- Основной контент -->
     <main class="main-content">
-        <h1>Вариант 3</h1>
+        <h1>Вариант 3</h1> <!-- Заголовок основного задания -->
         <section>
-            <h2>Фразы</h2>
-            <!-- Кнопка для добавления новых фраз -->
-            <button id="toggle-phrase">Показать фразу</button>
-            <!-- Кнопка для изменения стиля чётных строк -->
-            <button id="repaint">Перекрасить</button>
-            <div id="phrase-container"></div>
+            <h2>Фразы</h2> <!-- Заголовок секции -->
+            <button id="toggle-phrase">Показать фразу</button> <!-- Кнопка для добавления фраз -->
+            <button id="repaint">Перекрасить</button> <!-- Кнопка для изменения стиля чётных строк -->
+            <div id="phrase-container"></div> <!-- Контейнер для отображения фраз -->
         </section>
     </main>
+
+    <!-- JavaScript -->
     <script>
         // Массив латинских фраз
         const latinPhrases = [
-            "Consuetudo est altera natura",
-            "Nota bene",
-            "Nulla calamitas sola",
-            "Per aspera ad astra"
+            "Consuetudo est altera natura", // "Привычка - вторая натура"
+            "Nota bene", // "Заметьте хорошо!"
+            "Nulla calamitas sola", // "Беда не приходит одна"
+            "Per aspera ad astra" // "Через тернии к звёздам"
         ];
 
         // Массив переводов фраз на русский язык
@@ -80,77 +85,76 @@
         ];
 
         // Переменные для отслеживания состояния
-        let usedIndices = new Set(); // Набор использованных индексов
-        let toggleState = false; // Для чередования классов class1 и class2
-        let boldState = false; // Для отслеживания жирности текста
+        let usedIndices = new Set(); // Хранит индексы уже использованных фраз
+        let toggleState = false; // Переключатель между классами class1 и class2
+        let boldState = false; // Переключатель для жирности текста
 
         // Обработчик для кнопки "Показать фразу"
         document.getElementById('toggle-phrase').addEventListener('click', () => {
-            // Контейнер, в который добавляются фразы
-            const container = document.getElementById('phrase-container');
+            const container = document.getElementById('phrase-container'); // Контейнер для фраз
 
-            // Проверка, если все фразы уже были использованы
+            // Проверяем, если все фразы уже были использованы
             if (usedIndices.size === latinPhrases.length) {
-                alert('Фразы закончились');
+                alert('Фразы закончились'); // Выводим сообщение
                 return;
             }
 
-            // Выбор случайного индекса, который ещё не использовался
+            // Генерация случайного индекса
             let randomIndex;
             do {
                 randomIndex = Math.floor(Math.random() * latinPhrases.length);
             } while (usedIndices.has(randomIndex));
 
-            usedIndices.add(randomIndex);
+            usedIndices.add(randomIndex); // Добавляем индекс в набор использованных
 
-            // Создание элемента для фразы
+            // Создаём элемент для фразы
             const phrase = document.createElement('p');
             phrase.textContent = `${latinPhrases[randomIndex]} - ${russianPhrases[randomIndex]}`;
-            phrase.className = toggleState ? 'class1' : 'class2'; // Применение класса для фона
-            toggleState = !toggleState; // Переключение класса для следующей фразы
+            phrase.className = toggleState ? 'class1' : 'class2'; // Применяем стиль
+            toggleState = !toggleState; // Переключаем стиль для следующей строки
 
-            container.appendChild(phrase); // Добавление фразы в контейнер
+            container.appendChild(phrase); // Добавляем фразу в контейнер
         });
 
         // Обработчик для кнопки "Перекрасить"
         document.getElementById('repaint').addEventListener('click', () => {
-            // Выбор чётных строк в контейнере
-            const phrases = document.querySelectorAll('#phrase-container p:nth-child(even)');
+            const phrases = document.querySelectorAll('#phrase-container p:nth-child(even)'); // Все чётные строки
             phrases.forEach(phrase => {
                 if (boldState) {
-                    phrase.classList.remove('bold'); // Удаление жирности текста
+                    phrase.classList.remove('bold'); // Удаляем жирность
                 } else {
-                    phrase.classList.add('bold'); // Добавление жирности текста
+                    phrase.classList.add('bold'); // Добавляем жирность
                 }
             });
-            boldState = !boldState; // Переключение состояния жирности текста
+            boldState = !boldState; // Переключаем состояние
         });
 
         // Обработчик для кнопки "Создать"
         document.getElementById('create-list-item').addEventListener('click', () => {
-            // Контейнер списка фраз
-            const list = document.getElementById('phrase-list');
-            const randomIndex = Math.floor(Math.random() * latinPhrases.length);
+            const list = document.getElementById('phrase-list'); // Нумерованный список
+            const randomIndex = Math.floor(Math.random() * latinPhrases.length); // Случайный индекс
 
-            // Создание нового элемента списка
+            // Создаём элемент списка
             const listItem = document.createElement('li');
 
-            // Латинская фраза (основной элемент)
+            // Латинская фраза
             const latinItem = document.createElement('span');
             latinItem.textContent = latinPhrases[randomIndex];
-            latinItem.style.fontWeight = 'bold';
+            latinItem.style.fontWeight = 'bold'; // Жирное начертание
 
-            // Вложенный список с переводом
+            // Вложенный список для перевода
             const subList = document.createElement('ul');
             const subItem = document.createElement('li');
             subItem.textContent = russianPhrases[randomIndex];
 
-            subList.appendChild(subItem);
-            listItem.appendChild(latinItem);
-            listItem.appendChild(subList);
-            list.appendChild(listItem); // Добавление элемента в список
+            subList.appendChild(subItem); // Добавляем перевод
+            listItem.appendChild(latinItem); // Добавляем латинскую фразу
+            listItem.appendChild(subList); // Добавляем перевод
+            list.appendChild(listItem); // Добавляем элемент в список
         });
     </script>
+
+    <!-- Подвал -->
     <footer class="footer">
         <p>© 2024 АСУ на производстве. Все права защищены.</p>
     </footer>

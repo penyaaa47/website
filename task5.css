@@ -1,74 +1,84 @@
+/* Контейнер для пазла, объединяет левый (source) и правый (target) контейнеры */
 .puzzle-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-top: 20px;
+    display: flex; /* Выравнивание контейнеров в строку */
+    justify-content: center; /* Центрируем их горизонтально */
+    align-items: center; /* Центрируем по вертикали */
+    gap: 20px; /* Расстояние между контейнерами */
+    margin-top: 20px; /* Отступ сверху */
 }
 
+/* Общий стиль для контейнеров source и target */
 .source, .target {
-    width: 500px;
-    height: 500px;
-    border: 2px dashed #333;
-    position: relative;
+    width: 500px; /* Ширина контейнера фиксированная */
+    height: 500px; /* Высота контейнера фиксированная */
+    border: 2px dashed #333; /* Рамка с пунктирной линией */
+    position: relative; /* Позволяет размещать внутренние элементы с использованием абсолютного позиционирования */
     background-color: #333; /* Серый фон для контейнеров */
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out; /* Анимация при изменении масштаба (например, при успешной сборке) */
 }
 
+/* Стиль для контейнера source (левый контейнер) */
 .source {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    display: flex; /* Упрощает размещение элементов внутри */
+    flex-wrap: wrap; /* Позволяет элементам переноситься на следующую строку */
+    align-items: center; /* Выравнивание элементов по центру по вертикали */
+    justify-content: center; /* Выравнивание по центру по горизонтали */
 }
 
+/* Стиль для контейнера target (правый контейнер) */
 .target {
-    display: grid;
-    grid-template-columns: repeat(5, 100px);
-    grid-template-rows: repeat(5, 100px);
-    gap: 0;
+    display: grid; /* Используем сеточную раскладку */
+    grid-template-columns: repeat(5, 100px); /* 5 колонок по 100px каждая */
+    grid-template-rows: repeat(5, 100px); /* 5 строк по 100px каждая */
+    gap: 0; /* Нет промежутков между ячейками */
 }
 
+/* Стиль для ячеек сетки в правом контейнере */
 .cell {
-    width: 100px;
-    height: 100px;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
+    width: 100px; /* Фиксированная ширина */
+    height: 100px; /* Фиксированная высота */
+    border: 1px solid #ddd; /* Лёгкая рамка для выделения ячейки */
+    box-sizing: border-box; /* Учитывает рамки и padding внутри размеров элемента */
 }
 
+/* Стиль для частей пазла */
 .piece {
-    width: 100px;
-    height: 100px;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    transform: rotate(0deg);
-    transition: transform 0.2s, box-shadow 0.3s;
-    position: absolute;
+    width: 100px; /* Размер совпадает с размером ячейки */
+    height: 100px; /* Высота совпадает с размером ячейки */
+    background-size: cover; /* Картинка заполняет элемент полностью, сохраняя пропорции */
+    background-position: center; /* Картинка центрируется внутри элемента */
+    cursor: pointer; /* Указывает, что элемент кликабельный */
+    transform: rotate(0deg); /* Начальный угол поворота — 0 градусов */
+    transition: transform 0.2s, box-shadow 0.3s; /* Анимация для плавного поворота и эффекта тени */
+    position: absolute; /* Позволяет перемещать части пазла внутри контейнера */
 }
 
+/* Анимация для правого контейнера при успешной сборке */
 .success {
-    animation: successAnimation 1s ease-in-out;
+    animation: successAnimation 1s ease-in-out; /* Применяем анимацию scale */
 }
 
+/* Описание анимации успеха */
 @keyframes successAnimation {
     0% {
-        transform: scale(1);
+        transform: scale(1); /* Начальный масштаб — обычный */
     }
 
     50% {
-        transform: scale(1.2);
+        transform: scale(1.2); /* Увеличиваем масштаб до 1.2x */
     }
 
     100% {
-        transform: scale(1);
+        transform: scale(1); /* Возвращаем масштаб к исходному */
     }
 }
 
+/* Применение увеличения масштаба для контейнера target при успешной сборке */
 .target.success {
-    transform: scale(1.1);
+    transform: scale(1.1); /* Увеличиваем контейнер */
 }
 
+    /* При наведении на target после успешной сборки чуть уменьшаем масштаб */
     .target.success:hover {
-        transform: scale(1.05);
+        transform: scale(1.05); /* Лёгкий эффект уменьшения */
     }

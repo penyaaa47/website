@@ -1,281 +1,311 @@
-/* Общие стили */
+/* Общие стили для страницы */
 body {
-    background-color: #FFE4E1;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Минимальная высота страницы для flexbox */
+    background-color: #FFE4E1; /* Светло-розовый фон */
+    font-family: Arial, sans-serif; /* Шрифт Arial с запасным sans-serif */
+    margin: 0; /* Убираем внешние отступы */
+    padding: 0; /* Убираем внутренние отступы */
+    box-sizing: border-box; /* Учитываем padding и border в общей ширине/высоте элементов */
+    display: flex; /* Включаем Flexbox */
+    flex-direction: column; /* Размещаем содержимое страницы сверху вниз */
+    min-height: 100vh; /* Минимальная высота страницы равна высоте экрана */
 }
 
-/* Шапка */
+/* Стили для шапки сайта */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
+    display: flex; /* Включаем Flexbox для размещения элементов внутри */
+    justify-content: space-between; /* Распределяем элементы по краям шапки */
+    align-items: center; /* Центрируем элементы по вертикали */
+    padding: 10px 20px; /* Внутренние отступы: сверху/снизу — 10px, слева/справа — 20px */
+    background-color: #333; /* Тёмно-серый фон */
+    color: #fff; /* Белый текст */
 }
 
-/* Общий стиль для контейнера */
+/* Логотип компьютера */
 .logo-computer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    width: 80px;
-    height: 60px;
-    border: 2px solid #2c3e50;
+    display: flex; /* Включаем Flexbox */
+    flex-direction: column; /* Размещаем элементы (экран и основание) сверху вниз */
+    align-items: center; /* Центрируем элементы по горизонтали */
+    justify-content: center; /* Центрируем элементы по вертикали */
+    background-color: #fff; /* Белый фон логотипа */
+    padding: 10px; /* Внутренние отступы */
+    border-radius: 8px; /* Скруглённые углы */
+    width: 80px; /* Ширина логотипа */
+    height: 60px; /* Высота логотипа */
+    border: 2px solid #2c3e50; /* Тёмно-синяя рамка */
 }
 
-/* Стиль для экрана */
+/* Экран компьютера */
 .screen {
-    width: 50px;
-    height: 60px;
-    background-color: #2c3e50; /* темный экран */
-    border-radius: 5px;
-    margin-bottom: 10px;
+    width: 50px; /* Ширина экрана */
+    height: 60px; /* Высота экрана */
+    background-color: #2c3e50; /* Тёмно-синий фон */
+    border-radius: 5px; /* Скруглённые углы экрана */
+    margin-bottom: 10px; /* Отступ снизу между экраном и основанием */
 }
 
-/* Стиль для основания компьютера */
+/* Основание компьютера */
 .base {
-    width: 60px;
-    height: 15px;
-    background-color: #2c3e50; /* темная база */
-    border-radius: 3px;
+    width: 60px; /* Ширина основания */
+    height: 15px; /* Высота основания */
+    background-color: #2c3e50; /* Тёмно-синий цвет */
+    border-radius: 3px; /* Лёгкое скругление углов */
 }
 
-
-
-
-
+/* Меню */
 .menu {
-    display: flex;
-    align-items: center;
-    position: relative; /* Для правильного позиционирования dropdown */
+    display: flex; /* Включаем Flexbox для горизонтального расположения ссылок */
+    align-items: center; /* Центрируем элементы по вертикали */
+    position: relative; /* Для правильного позиционирования подменю */
 }
 
-
+    /* Ссылки в меню */
     .menu a {
-        color: #fff;
-        text-decoration: none;
-        margin-left: 15px;
-        padding: 5px 10px;
-        transition: background-color 0.3s ease;
+        color: #fff; /* Белый текст */
+        text-decoration: none; /* Убираем подчёркивание ссылок */
+        margin-left: 15px; /* Отступ между ссылками */
+        padding: 5px 10px; /* Внутренние отступы */
+        transition: background-color 0.3s ease; /* Плавное изменение цвета фона при наведении */
     }
 
+        /* Ссылки при наведении */
         .menu a:hover {
-           background-color:#444;
-           border-radius: 4px;
+            background-color: #444; /* Тёмно-серый фон при наведении */
+            border-radius: 4px; /* Скруглённые углы */
         }
 
 /* Подменю "Задания" */
 .tasks-menu {
-    position: relative;
+    position: relative; /* Для позиционирования dropdown */
 }
 
+    /* Dropdown (подменю) */
     .tasks-menu .dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: #444;
-        padding: 10px;
-        display: none; /* Скрываем по умолчанию */
-        flex-direction: column;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        position: absolute; /* Абсолютное позиционирование относительно родителя */
+        top: 100%; /* Располагаем подменю под родительским элементом */
+        left: 0; /* Начинаем с левого края родителя */
+        background-color: #444; /* Тёмно-серый фон подменю */
+        padding: 10px; /* Внутренние отступы */
+        display: none; /* По умолчанию скрыто */
+        flex-direction: column; /* Элементы внутри подменю расположены вертикально */
+        border-radius: 5px; /* Скруглённые углы */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Тень для подменю */
     }
 
-    /* Показываем dropdown только при наведении на "Задания" */
+    /* Отображение подменю при наведении */
     .tasks-menu:hover .dropdown {
-        display: flex;
+        display: flex; /* Показываем подменю */
     }
 
+/* Ссылки внутри подменю */
 .dropdown a {
-    color: #fff;
-    text-decoration: none;
-    margin: 5px 0;
-    padding: 5px;
-    transition: background-color 0.3s ease;
+    color: #fff; /* Белый текст */
+    text-decoration: none; /* Убираем подчёркивание ссылок */
+    margin: 5px 0; /* Отступ между ссылками */
+    padding: 5px; /* Внутренние отступы */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета фона */
 }
 
+    /* Ссылки в подменю при наведении */
     .dropdown a:hover {
-        background-color: #555;
-        border-radius: 4px;
+        background-color: #555; /* Ещё более тёмный серый фон */
+        border-radius: 4px; /* Скруглённые углы */
     }
 
-/* Контейнер для контента */
-/* Контейнер для контента */
+/* Контейнер контента */
 .content {
-    display: flex; /* Включаем Flexbox */
-    justify-content: space-between; /* Расстояние между текстом и картинкой */
-    align-items: center; /* Центрируем по вертикали */
-    width: 1440px; /* Устанавливаем ширину контейнера */
-    height: 704px; /* Устанавливаем высоту контейнера */
+    display: flex; /* Flexbox для горизонтального размещения текста и изображения */
+    justify-content: space-between; /* Расстояние между текстом и изображением */
+    align-items: center; /* Центрируем элементы по вертикали */
+    width: 1440px; /* Фиксированная ширина контейнера */
+    height: 704px; /* Фиксированная высота контейнера */
     margin: 0 auto; /* Центрируем контейнер по горизонтали */
 }
 
-/* Стиль для текста */
+/* Текстовая часть контента */
 .text {
-    flex: 1; /* Занимает доступное пространство */
+    flex: 1; /* Занимает всё доступное пространство */
     padding-right: 20px; /* Отступ справа */
 }
 
-/* Стиль для картинки */
+/* Изображения в контенте */
 .image img {
-    max-width: 100%; /* Картинка будет адаптироваться под размер контейнера */
-    height: auto;
-    max-width: 700px; /* Ограничим максимальную ширину картинки */
+    max-width: 100%; /* Картинка адаптируется к размеру контейнера */
+    height: auto; /* Автоматическая высота */
+    max-width: 700px; /* Ограничиваем максимальную ширину */
 }
-
-
 
 /* Подвал */
 .footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    margin-top: auto; /* Убедитесь, что footer закреплён внизу */
+    text-align: center; /* Центрируем текст в подвале */
+    padding: 10px; /* Внутренние отступы */
+    background-color: #333; /* Тёмно-серый фон */
+    color: #fff; /* Белый текст */
+    margin-top: auto; /* Закрепляем подвал внизу страницы */
 }
 
-/* Адаптивность для мобильных устройств */
+/* Адаптивные стили */
 @media (max-width: 768px) {
     .content {
-        flex-direction: column; /* Располагаем текст и картинку друг под другом */
+        flex-direction: column; /* Располагаем текст и изображение вертикально */
         width: 100%; /* Контейнер занимает всю ширину экрана */
         height: auto; /* Высота автоматически подстраивается */
     }
 
     .text {
         padding-right: 0; /* Убираем отступ справа */
-        margin-bottom: 20px; /* Добавляем отступ между текстом и картинкой */
+        margin-bottom: 20px; /* Отступ между текстом и изображением */
     }
 
     .image img {
-        max-width: 100%; /* Картинка будет адаптироваться под размер контейнера */
+        max-width: 100%; /* Картинка занимает всю ширину контейнера */
     }
 }
 
-    .logo-computer {
-        position: static; /* Логотип будет перемещён вверх */
-        margin-bottom: 10px;
-    }
+/* Адаптация логотипа */
+.logo-computer {
+    position: static; /* Сбрасываем абсолютное позиционирование */
+    margin-bottom: 10px; /* Добавляем отступ снизу */
+}
+
+/* Адаптация меню */
 .menu {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column; /* Располагаем элементы меню вертикально */
+    align-items: flex-start; /* Выравниваем элементы по левому краю */
 }
 
     .menu a {
-        margin: 5px 0;
+        margin: 5px 0; /* Отступ между ссылками */
     }
-    /*Задание 3. Кастрюля*/
+
+/* Задание 3. Кастрюля */
+
+/* Контейнер Flexbox, который выравнивает элементы по центру экрана */
 .flex-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    display: flex; /* Включаем Flexbox */
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+    height: 100vh; /* Высота контейнера на весь экран */
 }
 
+/* Элемент Flexbox (контейнер для кастрюли) */
 .flex-item {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    border: 2px solid #333;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #eaeaea;
-    transition: transform 0.3s ease;
+    position: relative; /* Для позиционирования внутренних элементов (абсолютных) */
+    width: 200px; /* Фиксированная ширина */
+    height: 200px; /* Фиксированная высота */
+    border: 2px solid #333; /* Тёмная рамка вокруг контейнера */
+    border-radius: 10px; /* Скруглённые углы */
+    overflow: hidden; /* Скрывает выходящие за границы элементы */
+    display: flex; /* Внутреннее выравнивание элементов */
+    justify-content: center; /* Центрирование содержимого по горизонтали */
+    align-items: center; /* Центрирование содержимого по вертикали */
+    background-color: #eaeaea; /* Светлый фон */
+    transition: transform 0.3s ease; /* Плавное увеличение при наведении */
 }
 
+    /* Увеличение контейнера при наведении */
     .flex-item:hover {
-        transform: scale(1.05); /* Увеличиваем контейнер чуть-чуть при наведении */
+        transform: scale(1.05); /* Немного увеличиваем контейнер */
     }
 
-/* Статичное состояние */
+/* Изображение кастрюли в статичном состоянии */
 .pot-static {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
+    position: absolute; /* Абсолютное позиционирование внутри контейнера */
+    width: 100%; /* Ширина на весь контейнер */
+    height: 100%; /* Высота на весь контейнер */
+    object-fit: cover; /* Масштабируем изображение с сохранением пропорций */
+    z-index: 1; /* Уровень над другими слоями — базовый */
 }
 
-/* Состояние при наведении */
+/* Изображение кастрюли при наведении */
 .pot-hover {
-    position: absolute;
-    width: 120%; /* Увеличиваем размер */
+    position: absolute; /* Абсолютное позиционирование */
+    width: 120%; /* Увеличенный размер, чтобы выглядело эффектно */
     height: 120%;
-    object-fit: cover;
-    opacity: 0;
-    z-index: 2;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    object-fit: cover; /* Масштабируем с сохранением пропорций */
+    opacity: 0; /* Изображение скрыто по умолчанию */
+    z-index: 2; /* Уровень выше статичного изображения */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Плавное появление и масштабирование */
 }
 
+/* При наведении на flex-item отображаем увеличенное изображение */
 .flex-item:hover .pot-hover {
-    opacity: 1;
-    transform: scale(1.1);
+    opacity: 1; /* Делаем изображение видимым */
+    transform: scale(1.1); /* Ещё немного увеличиваем изображение */
 }
 
-/* Состояние при нажатии */
+/* Изображение кастрюли при нажатии */
 .pot-click {
-    position: absolute;
-    width: 100%;
+    position: absolute; /* Абсолютное позиционирование */
+    width: 100%; /* Полностью заполняет контейнер */
     height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    z-index: 3;
-    animation: none;
+    object-fit: cover; /* Масштабируем с сохранением пропорций */
+    opacity: 0; /* Скрыто по умолчанию */
+    z-index: 3; /* Самый высокий уровень для отображения при нажатии */
+    animation: none; /* Нет анимации по умолчанию */
 }
 
+/* При нажатии на flex-item */
 .flex-item:active .pot-click {
-    opacity: 1;
+    opacity: 1; /* Делаем изображение видимым */
     animation: shake 0.2s infinite; /* Анимация тряски */
 }
 
-/* Анимация тряски */
+/* Анимация тряски кастрюли */
 @keyframes shake {
     0%, 100% {
-        transform: translateX(0);
+        transform: translateX(0); /* Начальное и конечное положение */
     }
 
     25% {
-        transform: translateX(-5px);
+        transform: translateX(-5px); /* Смещение влево */
     }
 
     75% {
-        transform: translateX(5px);
+        transform: translateX(5px); /* Смещение вправо */
     }
 }
+
 /* Текст по умолчанию скрыт */
 .pot-text {
-    position: absolute;
-    top: 50%;
-    left: -83px; /* Смещаем текст за пределы блока */
-    transform: translateY(-50%) rotate(-90deg); /* Переворачиваем текст */
-    color: red;
-    font-size: 18px;
-    font-weight: bold;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 4; /* Текст поверх изображений */
-    white-space: nowrap; /* Убираем перенос строки */
+    position: absolute; /* Абсолютное позиционирование */
+    top: 50%; /* Центрирование текста по вертикали */
+    left: -83px; /* Смещаем текст за пределы контейнера */
+    transform: translateY(-50%) rotate(-90deg); /* Поворачиваем текст на 90 градусов */
+    color: red; /* Цвет текста */
+    font-size: 18px; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    opacity: 0; /* Скрываем текст по умолчанию */
+    transition: opacity 0.3s ease; /* Плавное появление текста */
+    z-index: 4; /* Самый верхний уровень, чтобы текст отображался над изображениями */
+    white-space: nowrap; /* Запрещаем перенос текста */
 }
 
-/* Текст отображается при нажатии */
+/* Текст становится видимым при нажатии */
 .flex-item:active .pot-text {
-    opacity: 1;
+    opacity: 1; /* Отображаем текст */
 }
 
-
+/* Надпись "Магазин поваренок" по умолчанию скрыта */
+.pot-title {
+    position: absolute; /* Абсолютное позиционирование */
+    top: 0px; /* Размещаем наверху */
+    left: 50%; /* Центрируем по горизонтали */
+    transform: translateX(-50%); /* Корректируем центрирование */
+    font-size: 18px; /* Размер шрифта */
+    color: #333; /* Цвет текста */
+    font-weight: bold; /* Жирный шрифт */
+    white-space: nowrap; /* Запрещаем перенос текста */
+    opacity: 0; /* По умолчанию надпись скрыта */
+    transition: opacity 0.3s ease-in-out; /* Плавное появление/исчезновение */
+    z-index: 5; /* Над изображениями */
 }
 
+/* Появление надписи при наведении */
+.flex-item:hover .pot-title {
+    opacity: 1; /* Делаем надпись видимой */
+}
+
+/* Исчезновение надписи при нажатии */
+.flex-item:active .pot-title {
+    opacity: 0; /* Прячем надпись */
+}
