@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Задания</title>
+    <!-- Подключение файлов стилей -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="task5.css">
 </head>
 <body>
+    <!-- Шапка сайта -->
     <header class="header">
         <div class="logo-computer">
             <div class="screen"></div>
@@ -28,149 +30,185 @@
         </nav>
     </header>
 
+    <!-- Основной контент страницы -->
     <main class="content">
         <section class="task">
             <h2>Задание 5. Собрать животное</h2>
             <div class="puzzle-container">
+                <!-- Левый контейнер с исходными частями пазла -->
                 <div class="source" id="source">
+                    <!-- Части пазла, каждая имеет начальное положение и угол поворота -->
                     <div class="piece" id="piece1" style="background-image: url('images/1.jpg'); top: 0; left: 0; transform: rotate(90deg);" draggable="true"></div>
                     <div class="piece" id="piece2" style="background-image: url('images/2.jpg'); top: 0; left: 110px; transform: rotate(180deg);" draggable="true"></div>
                     <div class="piece" id="piece3" style="background-image: url('images/3.jpg'); top: 0; left: 220px; transform: rotate(270deg);" draggable="true"></div>
                     <div class="piece" id="piece4" style="background-image: url('images/4.jpg'); top: 0; left: 330px; transform: rotate(0deg);" draggable="true"></div>
                 </div>
+
+                <!-- Правый контейнер для сборки пазла -->
                 <div class="target" id="target">
-                    <!-- Static grid cells -->
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
+
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- Подвал сайта -->
     <footer class="footer">
         <p>&copy; 2024 АСУ на производстве. Все права защищены.</p>
     </footer>
 
+    <!-- Логика работы пазла -->
     <script>
-        const source = document.getElementById('source');
-        const target = document.getElementById('target');
+        // Ссылки на контейнеры
+        const source = document.getElementById('source'); // Левый контейнер
+        const target = document.getElementById('target'); // Правый контейнер
 
-        let draggedPiece = null;
+        let draggedPiece = null; // Глобальная переменная для отслеживания перетаскиваемой части пазла
 
+        // Добавляем обработчики событий для всех частей пазла
         document.querySelectorAll('.piece').forEach(piece => {
+            // Начало перетаскивания
             piece.addEventListener('dragstart', (e) => {
-                draggedPiece = e.target;
+                draggedPiece = e.target; // Запоминаем, какая часть перетаскивается
                 setTimeout(() => {
-                    piece.style.opacity = "0.5";
+                    piece.style.opacity = "0.5"; // Уменьшаем непрозрачность для визуального эффекта
                 }, 0);
             });
 
+            // Окончание перетаскивания
             piece.addEventListener('dragend', (e) => {
-                draggedPiece.style.opacity = "1";
-                draggedPiece = null;
+                piece.style.opacity = "1"; // Возвращаем непрозрачность
+                draggedPiece = null; // Очищаем переменную, так как перетаскивание завершено
             });
 
+            // Поворот части пазла при клике
             piece.addEventListener('click', () => {
+                // Получаем текущий угол поворота
                 const currentRotation = parseInt(piece.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+                // Увеличиваем угол на 90 градусов и обновляем стиль
                 piece.style.transform = `rotate(${(currentRotation + 90) % 360}deg)`;
-                setTimeout(checkPuzzle, 100);
+
+                // Проверяем сборку только если элемент в правом контейнере
+                if (piece.parentElement && piece.parentElement.id === 'target') {
+                    setTimeout(checkPuzzle, 100);
+                }
             });
         });
 
+        // Разрешаем перетаскивание над правым контейнером
         target.addEventListener('dragover', (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Обязательный вызов для разрешения события drop
         });
 
+        // Обработка отпускания элемента в правом контейнере
         target.addEventListener('drop', (e) => {
             e.preventDefault();
             if (draggedPiece) {
+                // Получаем размеры контейнера target
                 const rect = target.getBoundingClientRect();
+
+                // Вычисляем координаты курсора относительно контейнера
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
-                // Ensure the piece stays within bounds
-                const snapX = Math.min(Math.max(Math.round(x / 100) * 100, 0), 400);
-                const snapY = Math.min(Math.max(Math.round(y / 100) * 100, 0), 400);
+                // Привязываем координаты к ближайшей ячейке
+                const cellSize = 100; // Размер одной ячейки
+                const snapX = Math.floor(x / cellSize) * cellSize;
+                const snapY = Math.floor(y / cellSize) * cellSize;
 
-                // Check for overlap
-                const overlappingPiece = Array.from(target.querySelectorAll('.piece')).find(piece => {
-                    const pieceLeft = parseInt(piece.style.left);
-                    const pieceTop = parseInt(piece.style.top);
-                    return pieceLeft === snapX && pieceTop === snapY;
-                });
+                // Проверяем, находится ли ячейка внутри контейнера
+                if (snapX >= 0 && snapX < rect.width && snapY >= 0 && snapY < rect.height) {
+                    // Проверяем, занята ли ячейка
+                    const overlappingPiece = Array.from(target.querySelectorAll('.piece')).find(piece => {
+                        const pieceLeft = parseInt(piece.style.left);
+                        const pieceTop = parseInt(piece.style.top);
+                        return pieceLeft === snapX && pieceTop === snapY;
+                    });
 
-                if (!overlappingPiece) {
-                    draggedPiece.style.position = "absolute";
-                    draggedPiece.style.left = `${snapX}px`;
-                    draggedPiece.style.top = `${snapY}px`;
-                    target.appendChild(draggedPiece);
+                    if (!overlappingPiece) {
+                        // Если ячейка свободна, перемещаем часть пазла
+                        draggedPiece.style.position = "absolute";
+                        draggedPiece.style.left = `${snapX}px`;
+                        draggedPiece.style.top = `${snapY}px`;
+                        target.appendChild(draggedPiece);
+                    }
                 }
-
-                setTimeout(checkPuzzle, 100);
+                draggedPiece = null; // Сбрасываем переменную
             }
         });
 
         function checkPuzzle() {
+            // Получаем все элементы с классом .piece в правом контейнере
             const pieces = Array.from(target.querySelectorAll('.piece'));
+
+            // Для каждой части пазла собираем её данные: координаты (left, top) и угол поворота (rotation)
             const positions = pieces.map(piece => {
-                const left = parseInt(piece.style.left);
-                const top = parseInt(piece.style.top);
-                const rotation = parseInt(piece.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-                return { id: piece.id, left, top, rotation };
+                const left = parseInt(piece.style.left); // Горизонтальное положение
+                const top = parseInt(piece.style.top); // Вертикальное положение
+                const rotation = parseInt(piece.style.transform.replace('rotate(', '').replace('deg)', '')) || 0; // Угол поворота
+                return { id: piece.id, left, top, rotation }; // Возвращаем объект с данными
             });
 
+            // Проверяем правильность расположения всех частей
             const isCorrect = positions.every(pos => {
+                // Проверка для первой части пазла (piece1)
                 if (pos.id === 'piece1') {
-                    return positions.some(p => p.id === 'piece2' && p.left === pos.left + 100 && p.top === pos.top) &&
+                    return (
+                        // Проверяем, что часть piece2 находится справа от piece1
+                        positions.some(p => p.id === 'piece2' && p.left === pos.left + 100 && p.top === pos.top) &&
+                        // Проверяем, что часть piece3 находится ниже piece1
                         positions.some(p => p.id === 'piece3' && p.left === pos.left && p.top === pos.top + 100) &&
-                        pos.rotation === 0;
-                } else if (pos.id === 'piece2') {
-                    return positions.some(p => p.id === 'piece1' && p.left === pos.left - 100 && p.top === pos.top) &&
-                        positions.some(p => p.id === 'piece4' && p.left === pos.left && p.top === pos.top + 100) &&
-                        pos.rotation === 0;
-                } else if (pos.id === 'piece3') {
-                    return positions.some(p => p.id === 'piece1' && p.left === pos.left && p.top === pos.top - 100) &&
-                        positions.some(p => p.id === 'piece4' && p.left === pos.left + 100 && p.top === pos.top) &&
-                        pos.rotation === 0;
-                } else if (pos.id === 'piece4') {
-                    return positions.some(p => p.id === 'piece2' && p.left === pos.left && p.top === pos.top - 100) &&
-                        positions.some(p => p.id === 'piece3' && p.left === pos.left - 100 && p.top === pos.top) &&
-                        pos.rotation === 0;
+                        // Проверяем, что piece1 не повёрнута (rotation === 0)
+                        pos.rotation === 0
+                    );
                 }
+                // Проверка для второй части пазла (piece2)
+                else if (pos.id === 'piece2') {
+                    return (
+                        // Проверяем, что часть piece1 находится слева от piece2
+                        positions.some(p => p.id === 'piece1' && p.left === pos.left - 100 && p.top === pos.top) &&
+                        // Проверяем, что часть piece4 находится ниже piece2
+                        positions.some(p => p.id === 'piece4' && p.left === pos.left && p.top === pos.top + 100) &&
+                        // Проверяем, что piece2 не повёрнута
+                        pos.rotation === 0
+                    );
+                }
+                // Проверка для третьей части пазла (piece3)
+                else if (pos.id === 'piece3') {
+                    return (
+                        // Проверяем, что часть piece1 находится выше piece3
+                        positions.some(p => p.id === 'piece1' && p.left === pos.left && p.top === pos.top - 100) &&
+                        // Проверяем, что часть piece4 находится справа от piece3
+                        positions.some(p => p.id === 'piece4' && p.left === pos.left + 100 && p.top === pos.top) &&
+                        // Проверяем, что piece3 не повёрнута
+                        pos.rotation === 0
+                    );
+                }
+                // Проверка для четвёртой части пазла (piece4)
+                else if (pos.id === 'piece4') {
+                    return (
+                        // Проверяем, что часть piece2 находится выше piece4
+                        positions.some(p => p.id === 'piece2' && p.left === pos.left && p.top === pos.top - 100) &&
+                        // Проверяем, что часть piece3 находится слева от piece4
+                        positions.some(p => p.id === 'piece3' && p.left === pos.left - 100 && p.top === pos.top) &&
+                        // Проверяем, что piece4 не повёрнута
+                        pos.rotation === 0
+                    );
+                }
+                // Если идентификатор части не соответствует ни одному из известных (piece1, piece2, piece3, piece4)
                 return false;
             });
 
+            // Если все проверки прошли успешно, пазл собран правильно
             if (isCorrect) {
-                target.classList.add('success');
+                target.classList.add('success'); // Добавляем класс для анимации
                 setTimeout(() => {
-                    target.classList.remove('success');
-                    alert('Поздравляем, пазл собран правильно!');
+                    target.classList.remove('success'); // Убираем класс через 300 мс
+                    alert('Поздравляем, животное собрано правильно!'); // Выводим сообщение об успехе
                 }, 300);
             }
         }
+
     </script>
 </body>
 </html>
