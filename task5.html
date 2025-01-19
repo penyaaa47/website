@@ -19,7 +19,7 @@
             height: 500px;
             border: 2px dashed #333;
             position: relative;
-            background-color: #fff;
+            background-color: #333; /* Серый фон для контейнеров */
             transition: transform 0.3s ease-in-out;
         }
 
@@ -28,6 +28,20 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
+        }
+
+        .target {
+            display: grid;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: repeat(5, 100px);
+            gap: 0;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
         }
 
         .piece {
@@ -99,7 +113,34 @@
                     <div class="piece" id="piece3" style="background-image: url('images/3.jpg'); top: 0; left: 220px; transform: rotate(270deg);" draggable="true"></div>
                     <div class="piece" id="piece4" style="background-image: url('images/4.jpg'); top: 0; left: 330px; transform: rotate(0deg);" draggable="true"></div>
                 </div>
-                <div class="target" id="target"></div>
+                <div class="target" id="target">
+                    <!-- Static grid cells -->
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                </div>
             </div>
         </section>
     </main>
@@ -117,9 +158,13 @@
         document.querySelectorAll('.piece').forEach(piece => {
             piece.addEventListener('dragstart', (e) => {
                 draggedPiece = e.target;
+                setTimeout(() => {
+                    piece.style.opacity = "0.5";
+                }, 0);
             });
 
             piece.addEventListener('dragend', (e) => {
+                draggedPiece.style.opacity = "1";
                 draggedPiece = null;
             });
 
@@ -141,12 +186,23 @@
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
-                const snapX = Math.round(x / 100) * 100;
-                const snapY = Math.round(y / 100) * 100;
+                // Ensure the piece stays within bounds
+                const snapX = Math.min(Math.max(Math.round(x / 100) * 100, 0), 400);
+                const snapY = Math.min(Math.max(Math.round(y / 100) * 100, 0), 400);
 
-                draggedPiece.style.left = `${snapX}px`;
-                draggedPiece.style.top = `${snapY}px`;
-                target.appendChild(draggedPiece);
+                // Check for overlap
+                const overlappingPiece = Array.from(target.querySelectorAll('.piece')).find(piece => {
+                    const pieceLeft = parseInt(piece.style.left);
+                    const pieceTop = parseInt(piece.style.top);
+                    return pieceLeft === snapX && pieceTop === snapY;
+                });
+
+                if (!overlappingPiece) {
+                    draggedPiece.style.position = "absolute";
+                    draggedPiece.style.left = `${snapX}px`;
+                    draggedPiece.style.top = `${snapY}px`;
+                    target.appendChild(draggedPiece);
+                }
 
                 setTimeout(checkPuzzle, 100);
             }
