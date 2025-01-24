@@ -9,25 +9,21 @@
     <link rel="stylesheet" href="task5.css">
 </head>
 <body>
-    <!-- Шапка сайта -->
+    <!-- Шапка -->
     <header class="header">
-        <div class="logo-computer">
-            <div class="screen"></div>
-            <div class="base"></div>
-        </div>
-
-        <nav class="menu">
-            <a href="index.html">Главная</a>
-            <div class="tasks-menu">
-                <a>Задания</a>
-                <div class="dropdown">
-                    <a href="task2.html">Задание 2</a>
-                    <a href="task3.html">Задание 3</a>
-                    <a href="task4.html">Задание 4</a>
-                    <a href="task5.html">Задание 5</a>
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <div class="logo-computer">
+                    <div class="screen"></div>
+                    <div class="base"></div>
                 </div>
+            </a>
+            <div class="header-text">
+                <h1>АСУ и Автоматизация</h1>
+                <p>Инновационные решения для управления производственными процессами</p>
+                <p>Позвоните нам: +7 (999) 123-45-67</p>
             </div>
-        </nav>
+        </div>
     </header>
 
     <!-- Основной контент страницы -->
@@ -79,6 +75,10 @@
             piece.addEventListener('dragend', (e) => {
                 piece.style.opacity = "1"; // Возвращаем непрозрачность
                 draggedPiece = null; // Очищаем переменную, так как перетаскивание завершено
+                // Проверяем сборку только если элемент в правом контейнере
+                if (piece.parentElement && piece.parentElement.id === 'target') {
+                    setTimeout(checkPuzzle, 100);
+                }
             });
 
             // Поворот части пазла при клике
@@ -104,10 +104,11 @@
         target.addEventListener('drop', (e) => {
             e.preventDefault();
             if (draggedPiece) {
-                // Получаем размеры контейнера target
+                // Получаем размеры контейнера target относительно окна
                 const rect = target.getBoundingClientRect();
 
                 // Вычисляем координаты курсора относительно контейнера
+                //e.clientX - координаты курсора, а react.left координаты контейнера
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 

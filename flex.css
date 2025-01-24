@@ -19,6 +19,9 @@ body {
     position: relative;
     overflow: hidden;
     transition: transform 0.3s;
+    top: 0;
+    right: 0;
+
 }
 
     .flexbox:hover {

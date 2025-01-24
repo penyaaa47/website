@@ -27,25 +27,21 @@
     </style>
 </head>
 <body>
-    <!-- Шапка сайта -->
+    <!-- Шапка -->
     <header class="header">
-        <div class="logo-computer">
-            <div class="screen"></div> <!-- Экран логотипа -->
-            <div class="base"></div> <!-- Основание логотипа -->
-        </div>
-        <nav class="menu">
-            <a href="index.html">Главная</a> <!-- Ссылка на главную страницу -->
-            <div class="tasks-menu">
-                <a>Задания</a> <!-- Родительский элемент для подменю -->
-                <div class="dropdown">
-                    <!-- Подменю с заданиями -->
-                    <a href="task2.html">Задание 2</a> <!-- Ссылка на задание 2 -->
-                    <a href="task3.html">Задание 3</a> <!-- Ссылка на задание 3 -->
-                    <a href="task4.html">Задание 4</a> <!-- Ссылка на задание 4 -->
-                    <a href="task5.html">Задание 5</a> <!-- Ссылка на задание 5 -->
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <div class="logo-computer">
+                    <div class="screen"></div>
+                    <div class="base"></div>
                 </div>
+            </a>
+            <div class="header-text">
+                <h1>АСУ и Автоматизация</h1>
+                <p>Инновационные решения для управления производственными процессами</p>
+                <p>Позвоните нам: +7 (999) 123-45-67</p>
             </div>
-        </nav>
+        </div>
     </header>
 
     <!-- Боковая панель -->
@@ -73,7 +69,8 @@
             "Consuetudo est altera natura", // "Привычка - вторая натура"
             "Nota bene", // "Заметьте хорошо!"
             "Nulla calamitas sola", // "Беда не приходит одна"
-            "Per aspera ad astra" // "Через тернии к звёздам"
+            "Per aspera ad astra", // "Через тернии к звёздам"
+            "Pers"
         ];
 
         // Массив переводов фраз на русский язык
@@ -81,7 +78,8 @@
             "Привычка - вторая натура",
             "Заметьте хорошо!",
             "Беда не приходит одна",
-            "Через тернии к звёздам"
+            "Через тернии к звёздам",
+            "Абвг"
         ];
 
         // Переменные для отслеживания состояния
@@ -91,39 +89,34 @@
 
         // Обработчик для кнопки "Показать фразу"
         document.getElementById('toggle-phrase').addEventListener('click', () => {
-            const container = document.getElementById('phrase-container'); // Контейнер для фраз
+            const container = document.getElementById('phrase-container'); // Находим контейнер для фраз
 
-            // Проверяем, если все фразы уже были использованы
-            if (usedIndices.size === latinPhrases.length) {
-                alert('Фразы закончились'); // Выводим сообщение
-                return;
-            }
 
-            // Генерация случайного индекса
+
             let randomIndex;
-            do {
-                randomIndex = Math.floor(Math.random() * latinPhrases.length);
-            } while (usedIndices.has(randomIndex));
+
+            randomIndex = Math.floor(Math.random() * latinPhrases.length); // Генерируем случайный индекс
+            // Проверяем, использовалась ли уже эта фраза
 
             usedIndices.add(randomIndex); // Добавляем индекс в набор использованных
 
-            // Создаём элемент для фразы
-            const phrase = document.createElement('p');
-            phrase.textContent = `${latinPhrases[randomIndex]} - ${russianPhrases[randomIndex]}`;
-            phrase.className = toggleState ? 'class1' : 'class2'; // Применяем стиль
-            toggleState = !toggleState; // Переключаем стиль для следующей строки
+            const phrase = document.createElement('p'); // Создаем новый абзац
+            phrase.textContent = `${latinPhrases[randomIndex]} - ${russianPhrases[randomIndex]}`; // Добавляем текст: латинская фраза + перевод
+            phrase.className = toggleState ? 'class1' : 'class2'; // Применяем класс (голубой или зеленый фон)
+            toggleState = !toggleState; // Переключаем состояние для следующей строки
 
             container.appendChild(phrase); // Добавляем фразу в контейнер
         });
 
+
         // Обработчик для кнопки "Перекрасить"
         document.getElementById('repaint').addEventListener('click', () => {
-            const phrases = document.querySelectorAll('#phrase-container p:nth-child(even)'); // Все чётные строки
+            const phrases = document.querySelectorAll('#phrase-container p:nth-child(even)'); // Находим все четные строки
             phrases.forEach(phrase => {
                 if (boldState) {
-                    phrase.classList.remove('bold'); // Удаляем жирность
+                    phrase.classList.remove('bold'); // Убираем жирность текста
                 } else {
-                    phrase.classList.add('bold'); // Добавляем жирность
+                    phrase.classList.add('bold'); // Добавляем жирность текста
                 }
             });
             boldState = !boldState; // Переключаем состояние
@@ -131,26 +124,22 @@
 
         // Обработчик для кнопки "Создать"
         document.getElementById('create-list-item').addEventListener('click', () => {
-            const list = document.getElementById('phrase-list'); // Нумерованный список
-            const randomIndex = Math.floor(Math.random() * latinPhrases.length); // Случайный индекс
+            const list = document.getElementById('phrase-list'); // Находим список
+            const randomIndex = Math.floor(Math.random() * latinPhrases.length); // Генерируем случайный индекс
 
-            // Создаём элемент списка
-            const listItem = document.createElement('li');
+            const listItem = document.createElement('li'); // Создаем элемент списка
+            const latinItem = document.createElement('span'); // Создаем элемент для латинской фразы
+            latinItem.textContent = latinPhrases[randomIndex]; // Добавляем текст латинской фразы
+            latinItem.style.fontWeight = 'bold'; // Делаем текст жирным
 
-            // Латинская фраза
-            const latinItem = document.createElement('span');
-            latinItem.textContent = latinPhrases[randomIndex];
-            latinItem.style.fontWeight = 'bold'; // Жирное начертание
+            const subList = document.createElement('ul'); // Создаем вложенный список
+            const subItem = document.createElement('li'); // Элемент вложенного списка
+            subItem.textContent = russianPhrases[randomIndex]; // Текст перевода
 
-            // Вложенный список для перевода
-            const subList = document.createElement('ul');
-            const subItem = document.createElement('li');
-            subItem.textContent = russianPhrases[randomIndex];
-
-            subList.appendChild(subItem); // Добавляем перевод
-            listItem.appendChild(latinItem); // Добавляем латинскую фразу
-            listItem.appendChild(subList); // Добавляем перевод
-            list.appendChild(listItem); // Добавляем элемент в список
+            subList.appendChild(subItem); // Вложенный элемент добавляется в список
+            listItem.appendChild(latinItem); // Латинская фраза добавляется в основной элемент
+            listItem.appendChild(subList); // Вложенный список добавляется в основной элемент
+            list.appendChild(listItem); // Основной элемент добавляется в общий список
         });
     </script>
 

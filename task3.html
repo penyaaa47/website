@@ -9,28 +9,40 @@
 <body>
     <!-- Шапка -->
     <header class="header">
-        <div class="logo-computer">
-            <div class="screen"></div>
-            <div class="base"></div>
-        </div>
-
-        <nav class="menu">
-            <a href="index.html">Главная</a>
-            <div class="tasks-menu">
-                <a>Задания</a>
-                <div class="dropdown">
-                    <a href="task2.html">Задание 2</a>
-                    <a href="task3.html">Задание 3</a>
-                    <a href="task4.html">Задание 4</a>
-                    <a href="task5.html">Задание 5</a>
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <div class="logo-computer">
+                    <div class="screen"></div>
+                    <div class="base"></div>
                 </div>
+            </a>
+            <div class="header-text">
+                <h1>АСУ и Автоматизация</h1>
+                <p>Инновационные решения для управления производственными процессами</p>
+                <p>Позвоните нам: +7 (999) 123-45-67</p>
             </div>
-        </nav>
+        </div>
     </header>
 
     <!-- Контент -->
     <main class="content">
         <h1>Задание 3: Flexbox-реклама</h1>
+        <div class="flex-container">
+            <div class="flex-item" id="pot">
+                <!-- Текст при наведении -->
+                <div class="pot-title">Магазин поваренок</div>
+                <!-- Статичное изображение -->
+                <img src="images/ware2.jpg" alt="Кастрюля" class="pot-static">
+                <!-- При наведении -->
+                <img src="images/ware3.png" alt="Кастрюля при наведении" class="pot-hover">
+                <!-- При нажатии -->
+                <img src="images/ware4.png" alt="Крышка хлопает" class="pot-click">
+                <!-- Надпись -->
+                <span class="pot-text">Жаровочная посуда</span>
+            </div>
+
+        </div>
+
         <div class="flex-container">
             <div class="flex-item" id="pot">
                 <!-- Текст при наведении -->

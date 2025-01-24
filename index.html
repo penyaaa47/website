@@ -9,24 +9,19 @@
 <body>
     <!-- Шапка -->
     <header class="header">
-
-        <div class="logo-computer">
-            <div class="screen"></div>
-            <div class="base"></div>
-        </div>
-
-        <nav class="menu">
-            <a href="index.html">Главная</a>
-            <div class="tasks-menu">
-                <a>Задания</a>
-                    <div class="dropdown">
-                <a href="task2.html">Задание 2</a>
-                <a href="task3.html">Задание 3</a>
-                <a href="task4.html">Задание 4</a>
-                <a href="task5.html">Задание 5</a>
-                    </div>
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <div class="logo-computer">
+                    <div class="screen"></div>
+                    <div class="base"></div>
+                </div>
+            </a>
+            <div class="header-text">
+                <h1>АСУ и Автоматизация</h1>
+                <p>Инновационные решения для управления производственными процессами</p>
+                <p>Позвоните нам: +7 (999) 123-45-67</p>
             </div>
-        </nav>
+        </div>
     </header>
 
     <!-- Контент -->
@@ -34,12 +29,45 @@
         <div class="text">
             <h1>АСУ и Автоматизация</h1>
             <p>Добро пожаловать на сайт, посвященный автоматизированным системам управления (АСУ). Здесь вы найдете информацию о современных технологиях и выполненные проекты.</p>
+            <p>Автоматизация процессов помогает повысить эффективность производства, снизить затраты и улучшить качество продукции. На нашем сайте вы узнаете больше о применении ПЛК, SCADA-систем, а также о различных датчиках и исполнительных механизмах.</p>
+            <p>Мы предлагаем обучающие материалы, проекты и примеры внедрения автоматизированных систем управления на реальных заводах. Ознакомьтесь с нашей галереей и убедитесь в преимуществах современных технологий!</p>
         </div>
         <div class="image">
-            <img src="images/siemens.png" alt="Изображение завода">
+            <div>
+                <img src="images/siemens.png" alt="Изображение завода">
+                <p class="image-caption">Здесь изображен контроллер Siemens, используемый для управления промышленными процессами.</p>
+            </div>
+            <div>
+                <img src="images/plc.jpg" alt="Программируемый логический контроллер">
+                <p class="image-caption">Программируемый логический контроллер для автоматизации технологических процессов.</p>
+            </div>
+            <div>
+                <img src="images/factory.jpg" alt="Автоматизированное производство">
+                <p class="image-caption">Автоматизированное производство с использованием современных систем управления.</p>
+            </div>
         </div>
-    </main>
 
+        <!-- Раздел заданий -->
+        <section class="tasks">
+            <h2>Выполненные задания</h2>
+            <div class="task-list">
+                <div class="task-item">
+                    <a href="task2.html" class="task-link">Рисунок CSS</a>
+                    <p>Создать рисунки с помощью стилевой таблицы pic.css.</p>
+                </div>
+                
+                <div class="task-item">
+                    <a href="task4.html" class="task-link">DOM</a>
+                    <p>Создать интерактивные элементы на странице: нумерованный список.</p>
+                </div>
+                <div class="task-item">
+                    <a href="task5.html" class="task-link">Перетаскивание объектов</a>
+                    <p>Разработать и реализовать на странице сайта перетаскивание объектов.</p>
+                </div>
+            </div>
+            
+        </section>
+    </main>
 
     <!-- Подвал -->
     <footer class="footer">
