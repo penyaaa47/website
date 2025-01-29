@@ -172,9 +172,46 @@
             img.dataset.category = animal.category;
             img.id = `animal-${index}`;
 
+            // Drag and drop для ПК
             img.addEventListener("dragstart", (e) => {
                 e.dataTransfer.setData("text", animal.category);
                 e.dataTransfer.setData("id", e.target.id);
+            });
+
+            // Поддержка мобильных устройств
+            img.addEventListener("touchstart", (e) => {
+                let touch = e.touches[0];
+                e.target.classList.add("dragging");
+                e.target.dataset.touchX = touch.clientX;
+                e.target.dataset.touchY = touch.clientY;
+            });
+
+            img.addEventListener("touchmove", (e) => {
+                let touch = e.touches[0];
+                let dragging = document.querySelector(".dragging");
+                if (dragging) {
+                    dragging.style.position = "absolute";
+                    dragging.style.left = touch.clientX - dragging.offsetWidth / 2 + "px";
+                    dragging.style.top = touch.clientY - dragging.offsetHeight / 2 + "px";
+                }
+            });
+
+            img.addEventListener("touchend", (e) => {
+                let dragging = document.querySelector(".dragging");
+                if (dragging) {
+                    dragging.classList.remove("dragging");
+                    let dropZone = document.elementFromPoint(
+                        e.changedTouches[0].clientX,
+                        e.changedTouches[0].clientY
+                    );
+
+                    if (dropZone.classList.contains("target-container")) {
+                        dropZone.appendChild(dragging);
+                    } else {
+                        // Вернуть обратно в исходный контейнер, если не попали в цель
+                        document.getElementById("source").appendChild(dragging);
+                    }
+                }
             });
 
             sourceContainer.appendChild(img);
@@ -195,11 +232,11 @@
                     alert("Правильно! +10 баллов");
                     container.appendChild(draggedElement);
                     correctPlacements++;
-                    totalScore += 10; // ✅ Добавлено начисление баллов за правильный ответ
+                    totalScore += 10;
                 } else {
                     alert("Неправильно! -5 баллов");
                     originalContainer.appendChild(draggedElement);
-                    totalScore -= 5; // ✅ Добавлено вычитание баллов за неправильный ответ
+                    totalScore -= 5;
                 }
 
                 if (correctPlacements >= requiredPlacements) {
