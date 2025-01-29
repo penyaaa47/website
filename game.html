@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Определи вес</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="game_styles.css">
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <div class="logo-computer">
+                    <div class="screen"></div>
+                    <div class="base"></div>
+                </div>
+            </a>
+            <div class="header-text">
+                <h1>АСУ и Автоматизация</h1>
+                <p>Инновационные решения для управления производственными процессами</p>
+                <p>Позвоните нам: +7 (999) 123-45-67</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <section id="game-container" class="game-section">
+            <div class="welcome-container">
+                <h1 class="welcome-title">Добро пожаловать в игру</h1>
+                <div class="auth-box">
+                    <p>Введите ваше имя:</p>
+                    <form id="auth-form">
+                        <input type="text" id="player-name" class="input-field" placeholder="Ваше имя" required>
+                        <button type="submit" class="btn">Начать игру</button>
+                        <button onclick="window.location.href='rating.html'" class="btn">Посмотреть рейтинг игроков</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="game-levels" class="game-levels" style="display: none;">
+                <h2 id="game-level-title">Уровень 1</h2>
+                <p id="level-instruction"></p>
+                <div id="question-container" class="question-container"></div>
+
+                <!-- Контейнеры для перетаскивания (Только для уровня 2) -->
+                <div id="drag-drop-container" class="drag-drop-container" style="display: none;">
+                    <div id="source" class="source-container">
+                        <p>Исходные животные:</p>
+                    </div>
+                    <div class="targets-wrapper">
+                        <div id="light-animals" class="target-container">
+                            <p>Легкие животные:</p>
+                        </div>
+                        <div id="heavy-animals" class="target-container">
+                            <p>Тяжелые животные:</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="restart-game" class="btn restart-btn" style="display: block; margin: 20px auto;">Начать игру заново</button>
+                <button id="next-level" class="btn" style="display: none;">Следующий уровень</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Определи вес</p>
+    </footer>
+
+    <script src="game.js"></script>
+</body>
+</html>

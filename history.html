@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История игр</title>
+    <link rel="stylesheet" href="game_styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <div class="logo-computer">
+                    <div class="screen"></div>
+                    <div class="base"></div>
+                </div>
+            </a>
+            <div class="header-text">
+                <h1>АСУ и Автоматизация</h1>
+                <p>Инновационные решения для управления производственными процессами</p>
+                <p>Позвоните нам: +7 (999) 123-45-67</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <section class="history-section">
+            <h1 class="welcome-title">Рейтинг игроков</h1>
+            <div class="auth-box">
+                <table id="results-table">
+                    <thead>
+                        <tr>
+                            <th>Игрок</th>
+                            <th>Баллы</th>
+                            <th>Уровень</th>
+                            <th>Дата</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-body">
+                        <!-- Сюда добавятся результаты -->
+                    </tbody>
+                </table>
+                <button onclick="clearHistory()" class="btn">Очистить историю</button>
+                <button onclick="window.location.href='game.html'" class="btn">Назад в игру</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Определи вес</p>
+    </footer>
+
+    <script>
+        function loadResults() {
+            let results = JSON.parse(localStorage.getItem("gameResults")) || [];
+            let resultsBody = document.getElementById("results-body");
+
+            resultsBody.innerHTML = "";
+            results.forEach(result => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                        <td>${result.player}</td>
+                        <td>${result.score}</td>
+                        <td>${result.rank}</td>
+                        <td>${result.date}</td>
+                    `;
+                resultsBody.appendChild(row);
+            });
+        }
+
+        function clearHistory() {
+            localStorage.removeItem("gameResults");
+            loadResults();
+        }
+
+        window.onload = loadResults;
+    </script>
+</body>
+</html>
