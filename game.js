@@ -312,12 +312,13 @@
         let finalScreen = document.createElement("div");
         finalScreen.classList.add("final-screen");
 
-        // Центрируем финальный экран
+        // Центрируем финальный экран, но выше центра
         finalScreen.style.display = "flex";
         finalScreen.style.flexDirection = "column";
         finalScreen.style.alignItems = "center";
-        finalScreen.style.justifyContent = "center";
-        finalScreen.style.minHeight = "80vh";
+        finalScreen.style.justifyContent = "flex-start";
+        finalScreen.style.marginTop = "50px";
+        finalScreen.style.padding = "20px";
 
         let title = document.createElement("h1");
         title.textContent = "Итог игры";
@@ -346,6 +347,14 @@
         savedResults.push(newResult);
         localStorage.setItem("gameResults", JSON.stringify(savedResults));
 
+        // Контейнер для кнопок ответа
+        let buttonContainer = document.createElement("div");
+        buttonContainer.style.display = "flex";
+        buttonContainer.style.flexDirection = "column";
+        buttonContainer.style.alignItems = "center";
+        buttonContainer.style.gap = "10px";
+        buttonContainer.style.marginTop = "15px";
+
         // Кнопка для просмотра рейтинга игроков
         let viewResultsButton = document.createElement("button");
         viewResultsButton.textContent = "Посмотреть рейтинг игроков";
@@ -353,22 +362,25 @@
         viewResultsButton.addEventListener("click", () => {
             window.location.href = "rating.html";
         });
-        finalScreen.appendChild(viewResultsButton);
+        buttonContainer.appendChild(viewResultsButton);
 
         // Кнопка перезапуска игры
         let restartButton = document.createElement("button");
         restartButton.textContent = "Начать заново";
         restartButton.classList.add("btn");
+        restartButton.style.marginTop = "10px"; // Раздвигаем кнопки
         restartButton.addEventListener("click", () => {
             location.reload();
         });
-        finalScreen.appendChild(restartButton);
+        buttonContainer.appendChild(restartButton);
+
+        finalScreen.appendChild(buttonContainer);
 
         document.querySelector(".content").style.display = "flex";
         document.querySelector(".content").style.flexDirection = "column";
-        document.querySelector(".content").style.justifyContent = "center";
+        document.querySelector(".content").style.justifyContent = "flex-start";
         document.querySelector(".content").style.alignItems = "center";
-        document.querySelector(".content").style.minHeight = "80vh";
+        document.querySelector(".content").style.marginTop = "50px";
         document.querySelector(".content").appendChild(finalScreen);
     }
 
