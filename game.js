@@ -333,8 +333,8 @@
         finalScreen.appendChild(scoreInfo);
 
         let rank = "";
-        if (totalScore < 10) rank = "Новичок";
-        else if (totalScore < 20) rank = "Средний";
+        if (totalScore < 90) rank = "Новичок";
+        else if (totalScore < 190) rank = "Средний";
         else rank = "Профессионал";
 
         let rankInfo = document.createElement("p");
