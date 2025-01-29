@@ -114,39 +114,56 @@
     }
         
 
+    let askedQuestions = []; // Список уже заданных вопросов
+
     function startLevel1() {
         questionContainer.innerHTML = "";
-        let randomIndex;
+        let availableQuestions = level1Animals.filter(animal => !askedQuestions.includes(animal.weight));
 
-        do {
-            randomIndex = Math.floor(Math.random() * level1Animals.length);
-        } while (randomIndex === lastQuestionIndex);
+        // Если все вопросы использованы, обнуляем список
+        if (availableQuestions.length === 0) {
+            askedQuestions = [];
+            availableQuestions = [...level1Animals];
+        }
 
-        lastQuestionIndex = randomIndex;
-        const randomAnimal = level1Animals[randomIndex];
+        let randomIndex = Math.floor(Math.random() * availableQuestions.length);
+        const randomAnimal = availableQuestions[randomIndex];
+
+        // Добавляем в список использованных вопросов
+        askedQuestions.push(randomAnimal.weight);
 
         let question = document.createElement("p");
         question.textContent = `Какое животное весит примерно ${randomAnimal.weight} кг?`;
         questionContainer.appendChild(question);
+
+        let buttonContainer = document.createElement("div");
+        buttonContainer.style.display = "flex";
+        buttonContainer.style.justifyContent = "center";
+        buttonContainer.style.gap = "10px";
+        buttonContainer.style.marginTop = "15px";
+        buttonContainer.style.flexWrap = "wrap";
 
         level1Animals.forEach(animal => {
             let button = document.createElement("button");
             button.textContent = animal.name;
             button.classList.add("btn");
             button.addEventListener("click", () => checkAnswerLevel1(animal, randomAnimal));
-            questionContainer.appendChild(button);
+            buttonContainer.appendChild(button);
         });
+
+        questionContainer.appendChild(buttonContainer);
     }
 
     function checkAnswerLevel1(selected, correct) {
         if (selected.name === correct.name) {
             alert("Правильно! +10 баллов");
             streakCorrectAnswers++;
-            totalScore += 10; // ✅ Добавлено начисление баллов за правильный ответ
+            totalScore += 10;
         } else {
             alert("Неправильно! -5 баллов");
             streakCorrectAnswers = 0;
-            totalScore -= 5; // ✅ Добавлено вычитание баллов за неправильный ответ
+            totalScore -= 5;
+            askedQuestions = []; // Сбрасываем список вопросов при ошибке
         }
 
         if (streakCorrectAnswers < requiredCorrectAnswers) {
@@ -172,46 +189,9 @@
             img.dataset.category = animal.category;
             img.id = `animal-${index}`;
 
-            // Drag and drop для ПК
             img.addEventListener("dragstart", (e) => {
                 e.dataTransfer.setData("text", animal.category);
                 e.dataTransfer.setData("id", e.target.id);
-            });
-
-            // Поддержка мобильных устройств
-            img.addEventListener("touchstart", (e) => {
-                let touch = e.touches[0];
-                e.target.classList.add("dragging");
-                e.target.dataset.touchX = touch.clientX;
-                e.target.dataset.touchY = touch.clientY;
-            });
-
-            img.addEventListener("touchmove", (e) => {
-                let touch = e.touches[0];
-                let dragging = document.querySelector(".dragging");
-                if (dragging) {
-                    dragging.style.position = "absolute";
-                    dragging.style.left = touch.clientX - dragging.offsetWidth / 2 + "px";
-                    dragging.style.top = touch.clientY - dragging.offsetHeight / 2 + "px";
-                }
-            });
-
-            img.addEventListener("touchend", (e) => {
-                let dragging = document.querySelector(".dragging");
-                if (dragging) {
-                    dragging.classList.remove("dragging");
-                    let dropZone = document.elementFromPoint(
-                        e.changedTouches[0].clientX,
-                        e.changedTouches[0].clientY
-                    );
-
-                    if (dropZone.classList.contains("target-container")) {
-                        dropZone.appendChild(dragging);
-                    } else {
-                        // Вернуть обратно в исходный контейнер, если не попали в цель
-                        document.getElementById("source").appendChild(dragging);
-                    }
-                }
             });
 
             sourceContainer.appendChild(img);
@@ -232,11 +212,11 @@
                     alert("Правильно! +10 баллов");
                     container.appendChild(draggedElement);
                     correctPlacements++;
-                    totalScore += 10;
+                    totalScore += 10; // ✅ Добавлено начисление баллов за правильный ответ
                 } else {
                     alert("Неправильно! -5 баллов");
                     originalContainer.appendChild(draggedElement);
-                    totalScore -= 5;
+                    totalScore -= 5; // ✅ Добавлено вычитание баллов за неправильный ответ
                 }
 
                 if (correctPlacements >= requiredPlacements) {
@@ -288,6 +268,12 @@
             question.textContent = `К какой категории относится животное: ${randomAnimal.name}?`;
             questionContainer.appendChild(question);
 
+            let buttonContainer = document.createElement("div");
+            buttonContainer.style.display = "flex";
+            buttonContainer.style.justifyContent = "center";
+            buttonContainer.style.gap = "10px";
+            buttonContainer.style.marginTop = "15px";
+
             ["Легкие", "Тяжелые"].forEach(category => {
                 let button = document.createElement("button");
                 button.textContent = category;
@@ -309,17 +295,29 @@
                     remainingAnimals.splice(randomIndex, 1); // ✅ Удаляем животное из списка после ответа
                     generateAnimalQuestion();
                 });
-                questionContainer.appendChild(button);
+                buttonContainer.appendChild(button);
             });
+
+            questionContainer.appendChild(buttonContainer);
         }
 
         generateAnimalQuestion();
     }
 
+
     function showFinalResults() {
-        document.body.innerHTML = "";
+        // Очистка только основного содержимого, а не всей страницы
+        document.querySelector(".content").innerHTML = "";
+
         let finalScreen = document.createElement("div");
         finalScreen.classList.add("final-screen");
+
+        // Центрируем финальный экран
+        finalScreen.style.display = "flex";
+        finalScreen.style.flexDirection = "column";
+        finalScreen.style.alignItems = "center";
+        finalScreen.style.justifyContent = "center";
+        finalScreen.style.minHeight = "80vh";
 
         let title = document.createElement("h1");
         title.textContent = "Итог игры";
@@ -348,12 +346,12 @@
         savedResults.push(newResult);
         localStorage.setItem("gameResults", JSON.stringify(savedResults));
 
-        // Кнопка для просмотра истории игр
+        // Кнопка для просмотра рейтинга игроков
         let viewResultsButton = document.createElement("button");
         viewResultsButton.textContent = "Посмотреть рейтинг игроков";
         viewResultsButton.classList.add("btn");
         viewResultsButton.addEventListener("click", () => {
-            window.location.href = "history.html"; // Переход на страницу истории
+            window.location.href = "rating.html";
         });
         finalScreen.appendChild(viewResultsButton);
 
@@ -366,7 +364,12 @@
         });
         finalScreen.appendChild(restartButton);
 
-        document.body.appendChild(finalScreen);
+        document.querySelector(".content").style.display = "flex";
+        document.querySelector(".content").style.flexDirection = "column";
+        document.querySelector(".content").style.justifyContent = "center";
+        document.querySelector(".content").style.alignItems = "center";
+        document.querySelector(".content").style.minHeight = "80vh";
+        document.querySelector(".content").appendChild(finalScreen);
     }
 
 
