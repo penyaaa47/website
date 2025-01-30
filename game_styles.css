@@ -106,3 +106,11 @@ body {
     .btn:hover {
         background: #357ABD;
     }
+
+
+
+.moving-button {
+    position: absolute;
+    transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+    z-index: 10; /* Убедимся, что кнопки поверх всего */
+}

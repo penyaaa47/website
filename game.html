@@ -29,11 +29,14 @@
         <section id="game-container" class="game-section">
             <div class="welcome-container">
                 <h1 class="welcome-title">Добро пожаловать в игру</h1>
+                <h1 class="welcome-title">Для того, чтобы начать заново нажмите Escape</h1>
                 <div class="auth-box">
                     <p>Введите ваше имя:</p>
                     <form id="auth-form">
                         <input type="text" id="player-name" class="input-field" placeholder="Ваше имя" required>
                         <button type="submit" class="btn">Начать игру</button>
+                        <button id="skip-to-level-2" class="btn">Отладка.Перейти ко 2 уровню</button>
+                        <button id="skip-to-level-3" class="btn">Отладка.Перейти к 3 уровню</button>
                         <button onclick="window.location.href='rating.html'" class="btn">Посмотреть рейтинг игроков</button>
                     </form>
                 </div>

@@ -12,6 +12,11 @@
     const lightAnimalsContainer = document.getElementById("light-animals");
     const heavyAnimalsContainer = document.getElementById("heavy-animals");
     const authText = document.getElementById("auth-text");
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            location.reload(); // Аналог нажатия "Начать заново"
+        }
+    });
 
     let playerName = "";
     let currentLevel = 1;
@@ -37,39 +42,39 @@
 
     const level3Animals = [
         ...level1Animals,
-        { name: "Лошадь", category: "heavy" },
-        { name: "Тигр", category: "heavy" },
-        { name: "Медведь", category: "heavy" },
-        { name: "Горилла", category: "heavy" },
-        { name: "Лев", category: "heavy" },
-        { name: "Буйвол", category: "heavy" },
-        { name: "Бегемот", category: "heavy" },
-        { name: "Носорог", category: "heavy" },
-        { name: "Осел", category: "heavy" },
-        { name: "Ящерица", category: "light" },
-        { name: "Попугай", category: "light" },
-        { name: "Кролик", category: "light" },
-        { name: "Еж", category: "light" },
-        { name: "Летучая мышь", category: "light" },
-        { name: "Белка", category: "light" },
-        { name: "Хорек", category: "light" },
-        { name: "Коала", category: "light" },
-        { name: "Фенек", category: "light" },
-        { name: "Кенгуру", category: "light" },
-        { name: "Выдра", category: "light" },
-        { name: "Курица", category: "light" },
-        { name: "Гусь", category: "light" },
-        { name: "Утка", category: "light" },
-        { name: "Павлин", category: "light" },
-        { name: "Фламинго", category: "light" },
-        { name: "Обезьяна", category: "light" },
-        { name: "Лемур", category: "light" },
-        { name: "Крот", category: "light" },
-        { name: "Змея", category: "light" },
-        { name: "Пингвин", category: "light" },
-        { name: "Черепаха", category: "light" },
-        { name: "Антилопа", category: "heavy" },
-        { name: "Верблюд", category: "heavy" }
+        { name: "Лошадь", weight: 500, category: "heavy" },
+        { name: "Тигр", weight: 300, category: "heavy" },
+        { name: "Медведь", weight: 600, category: "heavy" },
+        { name: "Горилла", weight: 160, category: "heavy" },
+        { name: "Лев", weight: 250, category: "heavy" },
+        { name: "Буйвол", weight: 900, category: "heavy" },
+        { name: "Бегемот", weight: 1500, category: "heavy" },
+        { name: "Носорог", weight: 2300, category: "heavy" },
+        { name: "Осел", weight: 200, category: "heavy" },
+        { name: "Ящерица", weight: 0.5, category: "light" },
+        { name: "Попугай", weight: 1, category: "light" },
+        { name: "Кролик", weight: 2, category: "light" },
+        { name: "Еж", weight: 1.5, category: "light" },
+        { name: "Летучая мышь", weight: 0.03, category: "light" },
+        { name: "Белка", weight: 0.6, category: "light" },
+        { name: "Хорек", weight: 1.3, category: "light" },
+        { name: "Коала", weight: 9, category: "light" },
+        { name: "Фенек", weight: 1.5, category: "light" },
+        { name: "Кенгуру", weight: 85, category: "light" },
+        { name: "Выдра", weight: 10, category: "light" },
+        { name: "Курица", weight: 2.5, category: "light" },
+        { name: "Гусь", weight: 4, category: "light" },
+        { name: "Утка", weight: 3, category: "light" },
+        { name: "Павлин", weight: 5, category: "light" },
+        { name: "Фламинго", weight: 3.5, category: "light" },
+        { name: "Обезьяна", weight: 8, category: "light" },
+        { name: "Лемур", weight: 2.2, category: "light" },
+        { name: "Крот", weight: 0.1, category: "light" },
+        { name: "Змея", weight: 6, category: "light" },
+        { name: "Пингвин", weight: 30, category: "light" },
+        { name: "Черепаха", weight: 12, category: "light" },
+        { name: "Антилопа", weight: 250, category: "heavy" },
+        { name: "Верблюд", weight: 600, category: "heavy" }
     ];
 
     authForm.addEventListener("submit", (event) => {
@@ -88,6 +93,7 @@
         }
     
     });
+   
 
     function startLevel() {
         questionContainer.innerHTML = "";
@@ -96,7 +102,7 @@
         if (currentLevel === 1) {
             nextLevelButton.style.display = "none";
             dragDropContainer.style.display = "none";
-            levelInstruction.textContent = "Выберите животное, которое соответствует заданному весу. Для перехода на следующий уровень нужно ответить 4 раза подряд правильно";
+            levelInstruction.textContent = "Выберите животное, которое соответствует заданному весу. Для перехода на следующий уровень нужно ответить 4 раза подряд правильно. Для выбора можете использовать клавишу Enter или ЛКМ";
             startLevel1();
         } else if (currentLevel === 2) {
             nextLevelButton.style.display = "none";
@@ -112,26 +118,42 @@
             showFinalResults();
         }
     }
-        
+    function setupLevelSkipButtons() {
+        document.getElementById("skip-to-level-2").addEventListener("click", () => {
+            const playerName = document.getElementById("player-name").value.trim();
+            if (!playerName) {
+                alert("Введите имя перед началом игры!");
+                return;
+            }
+            localStorage.setItem("playerName", playerName);
+            currentLevel = 2;
+            startLevel2();
+            gameLevels.style.display = "block";
+        });
+
+        document.getElementById("skip-to-level-3").addEventListener("click", () => {
+            const playerName = document.getElementById("player-name").value.trim();
+            if (!playerName) {
+                alert("Введите имя перед началом игры!");
+                return;
+            }
+            localStorage.setItem("playerName", playerName);
+            currentLevel = 3;
+            startLevel3();
+            gameLevels.style.display = "block";
+        });
+    }
 
     let askedQuestions = []; // Список уже заданных вопросов
 
     function startLevel1() {
         questionContainer.innerHTML = "";
-        let availableQuestions = level1Animals.filter(animal => !askedQuestions.includes(animal.weight));
 
-        // Если все вопросы использованы, обнуляем список
-        if (availableQuestions.length === 0) {
-            askedQuestions = [];
-            availableQuestions = [...level1Animals];
-        }
+        // Получаем случайного животного из списка level3Animals
+        let randomIndex = Math.floor(Math.random() * level3Animals.length);
+        const randomAnimal = level3Animals[randomIndex];
 
-        let randomIndex = Math.floor(Math.random() * availableQuestions.length);
-        const randomAnimal = availableQuestions[randomIndex];
-
-        // Добавляем в список использованных вопросов
-        askedQuestions.push(randomAnimal.weight);
-
+        // Генерируем вопрос
         let question = document.createElement("p");
         question.textContent = `Какое животное весит примерно ${randomAnimal.weight} кг?`;
         questionContainer.appendChild(question);
@@ -143,17 +165,42 @@
         buttonContainer.style.marginTop = "15px";
         buttonContainer.style.flexWrap = "wrap";
 
-        level1Animals.forEach(animal => {
+        let buttons = [];
+
+        // Выбираем 5 случайных животных для кнопок (включая правильный ответ)
+        let shuffledAnimals = [...level3Animals].sort(() => Math.random() - 0.5).slice(0, 5);
+
+        // Убеждаемся, что среди кнопок есть правильный ответ
+        if (!shuffledAnimals.some(animal => animal.name === randomAnimal.name)) {
+            shuffledAnimals[Math.floor(Math.random() * shuffledAnimals.length)] = randomAnimal;
+        }
+
+        shuffledAnimals.forEach(animal => {
             let button = document.createElement("button");
             button.textContent = animal.name;
             button.classList.add("btn");
+
+            // Обработка клика
             button.addEventListener("click", () => checkAnswerLevel1(animal, randomAnimal));
+
+            // Фокус при наведении
+            button.addEventListener("mouseenter", () => {
+                button.focus();
+            });
+
+            // Выбор при нажатии Enter
+            button.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    checkAnswerLevel1(animal, randomAnimal);
+                }
+            });
+
+            buttons.push(button);
             buttonContainer.appendChild(button);
         });
 
         questionContainer.appendChild(buttonContainer);
     }
-
     function checkAnswerLevel1(selected, correct) {
         if (selected.name === correct.name) {
             alert("Правильно! +10 баллов");
@@ -227,36 +274,45 @@
     }
 
     function startLevel3() {
+        questionContainer.innerHTML = "";
+
         let timeDisplay = document.createElement("p");
         timeDisplay.id = "timer";
         timeDisplay.textContent = `Осталось времени: ${timeLeft} секунд`;
         questionContainer.appendChild(timeDisplay);
 
-        let remainingAnimals = [...level3Animals]; // Копия массива животных, чтобы избежать изменений в оригинале
+        let remainingAnimals = [...level3Animals]; // Копия массива животных
+        let buttonIntervals = []; // Массив для хранения интервалов движения кнопок
+        let timeExpired = false; // Флаг, который предотвратит бесконечные вызовы alert()
 
         timer = setInterval(() => {
             timeLeft--;
             timeDisplay.textContent = `Осталось времени: ${timeLeft} секунд`;
 
-            if (timeLeft <= 0) {
+            if (timeLeft <= 0 && !timeExpired) { // Проверяем, не вызывался ли уже alert()
+                timeExpired = true; // Устанавливаем флаг, чтобы alert не повторялся
                 clearInterval(timer);
+                buttonIntervals.forEach(interval => clearInterval(interval)); // Останавливаем движение кнопок
                 alert(`Время вышло! Сейчас вы увидите свои результаты.`);
                 nextLevelButton.style.display = "block";
                 localStorage.setItem("totalScore", totalScore);
-                showFinalResults(); // ✅ Переход на экран результатов
+                showFinalResults();
             }
         }, 1000);
 
         function generateAnimalQuestion() {
+            if (timeExpired) return; // Если время вышло, не создаем новые вопросы
+
             questionContainer.innerHTML = "";
             questionContainer.appendChild(timeDisplay);
 
-            if (remainingAnimals.length === 0) { // ✅ Если список пуст, выводим сообщение
+            if (remainingAnimals.length === 0) {
                 clearInterval(timer);
+                buttonIntervals.forEach(interval => clearInterval(interval)); // Останавливаем кнопки
                 let endMessage = document.createElement("p");
                 endMessage.textContent = "Животные закончились!";
                 questionContainer.appendChild(endMessage);
-                nextLevelButton.style.display = "block"; // Открываем кнопку показа результатов
+                nextLevelButton.style.display = "block";
                 localStorage.setItem("totalScore", totalScore);
                 return;
             }
@@ -269,41 +325,95 @@
             questionContainer.appendChild(question);
 
             let buttonContainer = document.createElement("div");
-            buttonContainer.style.display = "flex";
-            buttonContainer.style.justifyContent = "center";
-            buttonContainer.style.gap = "10px";
-            buttonContainer.style.marginTop = "15px";
+            buttonContainer.classList.add("moving-buttons-container");
 
             ["Легкие", "Тяжелые"].forEach(category => {
                 let button = document.createElement("button");
                 button.textContent = category;
-                button.classList.add("btn");
+                button.classList.add("btn", "moving-button");
+                button.dataset.category = category;
+
                 button.addEventListener("click", () => {
+                    if (timeExpired) return; // Если время вышло, не обрабатываем клики
+
                     if (
                         (category === "Легкие" && randomAnimal.category === "light") ||
                         (category === "Тяжелые" && randomAnimal.category === "heavy")
                     ) {
                         alert("Правильно! +10 баллов");
-                        correctAnswers++;
                         totalScore += 10;
                     } else {
                         alert("Неправильно! -5 баллов");
                         totalScore -= 5;
                     }
-                    localStorage.setItem("totalScore", totalScore);
 
-                    remainingAnimals.splice(randomIndex, 1); // ✅ Удаляем животное из списка после ответа
+                    localStorage.setItem("totalScore", totalScore);
+                    remainingAnimals.splice(randomIndex, 1);
                     generateAnimalQuestion();
                 });
+
                 buttonContainer.appendChild(button);
             });
 
             questionContainer.appendChild(buttonContainer);
+            moveButtons(buttonIntervals); // Запускаем движение кнопок
         }
 
         generateAnimalQuestion();
     }
+    function moveButtons(buttonIntervals) {
+        const buttons = document.querySelectorAll(".moving-button");
+        const gameContainer = document.querySelector(".content"); // Ограничиваем движение в розовой зоне
+        const restartButton = document.getElementById("restart-game"); // Кнопка "Начать игру заново"
 
+        if (!gameContainer || !restartButton) return;
+
+        let containerRect = gameContainer.getBoundingClientRect();
+        let restartRect = restartButton.getBoundingClientRect(); // Получаем координаты кнопки
+
+        buttons.forEach(button => {
+            let interval = setInterval(() => {
+                let maxX = containerRect.width - button.clientWidth - 20;
+                let maxY = containerRect.height - button.clientHeight - 20;
+
+                let newX, newY;
+                do {
+                    newX = Math.random() * maxX;
+                    newY = Math.random() * maxY;
+                } while (
+                    newX + button.clientWidth > restartRect.left - containerRect.left && // Проверка по X
+                    newX < restartRect.right - containerRect.left &&
+                    newY + button.clientHeight > restartRect.top - containerRect.top && // Проверка по Y
+                    newY < restartRect.bottom - containerRect.top
+                );
+
+                button.style.position = "absolute";
+                button.style.left = `${containerRect.left + newX}px`;
+                button.style.top = `${containerRect.top + newY}px`;
+            }, 1000);
+
+            buttonIntervals.push(interval);
+
+            // Когда игрок наводит курсор, кнопка сразу же убегает
+            button.addEventListener("mouseenter", () => {
+                let newX, newY;
+                do {
+                    newX = Math.random() * maxX;
+                    newY = Math.random() * maxY;
+                } while (
+                    newX + button.clientWidth > restartRect.left - containerRect.left &&
+                    newX < restartRect.right - containerRect.left &&
+                    newY + button.clientHeight > restartRect.top - containerRect.top &&
+                    newY < restartRect.bottom - containerRect.top
+                );
+
+                button.style.left = `${containerRect.left + newX}px`;
+                button.style.top = `${containerRect.top + newY}px`;
+            });
+        });
+    }
+
+       
 
     function showFinalResults() {
         // Очистка только основного содержимого, а не всей страницы
@@ -369,11 +479,13 @@
         restartButton.textContent = "Начать заново";
         restartButton.classList.add("btn");
         restartButton.style.marginTop = "10px"; // Раздвигаем кнопки
-        restartButton.addEventListener("click", () => {
+
+        // Меняем обработчик с одиночного клика на двойной клик
+        restartButton.addEventListener("dblclick", function () {
             location.reload();
         });
-        buttonContainer.appendChild(restartButton);
 
+        buttonContainer.appendChild(restartButton);
         finalScreen.appendChild(buttonContainer);
 
         document.querySelector(".content").style.display = "flex";
@@ -384,7 +496,7 @@
         document.querySelector(".content").appendChild(finalScreen);
     }
 
-
+    setupLevelSkipButtons(); // Подключаем обработчики кнопок перехода
 
     nextLevelButton.addEventListener("click", () => {
         currentLevel++;
